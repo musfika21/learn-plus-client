@@ -1,3 +1,4 @@
+import { animate } from "framer-motion";
 import type { Config } from "tailwindcss";
 
 const config = {
@@ -145,7 +146,7 @@ const config = {
       },
     },
   },
-  plugins: [require("tailwindcss-animate"), "prettier-plugin-tailwindcss"],
+  plugins: [animate],
 } satisfies Config;
 
 export default config;
