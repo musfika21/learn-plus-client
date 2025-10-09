@@ -1,9 +1,14 @@
 import { Link, NavLink } from "react-router";
-import { FaHome, FaHandsHelping, FaUserShield, FaCode, FaInfoCircle } from "react-icons/fa";
+import {
+  FaHome,
+  FaHandsHelping,
+  FaUserShield,
+  FaCode,
+  FaInfoCircle,
+} from "react-icons/fa";
+import Theme from "../Theme/Theme";
 
 const Navbar = () => {
-
-
   const linkClass = ({ isActive }) =>
     `flex items-center gap-2 text-lg font-medium transition-all duration-300 ${
       isActive ? "underline" : ""
@@ -79,11 +84,10 @@ const Navbar = () => {
           </div>
 
           {/* Right */}
-          <div className="navbar-end flex items-center gap-3">
-          
-          </div>
+          <div className="navbar-end flex items-center gap-3"></div>
         </div>
       </div>
+      <Theme></Theme>
 
       {/* To offset the fixed navbar height */}
       <div className="pt-20"></div>
