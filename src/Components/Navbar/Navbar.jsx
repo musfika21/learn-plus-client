@@ -6,6 +6,7 @@ import {
   FaInfoCircle,
 } from "react-icons/fa";
 import Theme from "../Theme/Theme";
+import Logo from "../Logo/Logo";
 
 const Navbar = () => {
   const linkClass = ({ isActive }) =>
@@ -24,7 +25,7 @@ const Navbar = () => {
       <li>
         <NavLink to="/allDonations" className={linkClass}>
           <FaHandsHelping className="text-secondary text-xl" />
-          <span className="text-primary">All Donations</span>
+          <span className="text-primary">All Classes</span>
         </NavLink>
       </li>
       <li>
@@ -73,6 +74,7 @@ const Navbar = () => {
                 {links}
               </ul>
             </div>
+            <Logo></Logo>
           </div>
 
           {/* Center */}
