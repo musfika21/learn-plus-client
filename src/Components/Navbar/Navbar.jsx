@@ -5,7 +5,7 @@ import {
   FaUserShield,
   FaInfoCircle,
 } from "react-icons/fa";
-import Theme from "./Theme/Theme";
+import Theme from "../Theme/Theme";
 
 const Navbar = () => {
   const linkClass = ({ isActive }) =>
