@@ -1,9 +1,13 @@
-import { Link, NavLink } from "react-router";
-import { FaHome, FaHandsHelping, FaUserShield, FaCode, FaInfoCircle } from "react-icons/fa";
+import { NavLink } from "react-router";
+import {
+  FaHome,
+  FaHandsHelping,
+  FaUserShield,
+  FaInfoCircle,
+} from "react-icons/fa";
+import Theme from "./Theme/Theme";
 
 const Navbar = () => {
-
-
   const linkClass = ({ isActive }) =>
     `flex items-center gap-2 text-lg font-medium transition-all duration-300 ${
       isActive ? "underline" : ""
@@ -80,7 +84,7 @@ const Navbar = () => {
 
           {/* Right */}
           <div className="navbar-end flex items-center gap-3">
-          
+            <Theme></Theme>
           </div>
         </div>
       </div>
