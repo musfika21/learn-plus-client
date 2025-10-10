@@ -1,7 +1,7 @@
 import React from "react";
 import Banner from "./Banner/banner";
 
-const home = () => {
+const Home = () => {
   return (
     <div>
       <Banner></Banner>
@@ -9,4 +9,4 @@ const home = () => {
   );
 };
 
-export default home;
+export default Home;
