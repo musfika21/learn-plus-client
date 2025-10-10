@@ -1,17 +1,17 @@
-import { Link, NavLink } from "react-router";
+import { NavLink } from "react-router";
 import {
   FaHome,
   FaHandsHelping,
   FaUserShield,
-  FaCode,
   FaInfoCircle,
 } from "react-icons/fa";
 import Theme from "../Theme/Theme";
+import Logo from "../Logo/Logo";
+// sign in button ta add koren
 
 const Navbar = () => {
   const linkClass = ({ isActive }) =>
-    `flex items-center gap-2 text-lg font-medium transition-all duration-300 ${
-      isActive ? "underline" : ""
+    `flex items-center gap-2 text-lg font-medium transition-all duration-300 ${isActive ? "underline" : ""
     }`;
 
   const links = (
@@ -25,7 +25,7 @@ const Navbar = () => {
       <li>
         <NavLink to="/allDonations" className={linkClass}>
           <FaHandsHelping className="text-secondary text-xl" />
-          <span className="text-primary">All Donations</span>
+          <span className="text-primary">All Classes</span>
         </NavLink>
       </li>
       <li>
@@ -45,7 +45,7 @@ const Navbar = () => {
 
   return (
     <>
-      <div className="fixed top-0 left-0 right-0 z-50 w-full backdrop-blur-lg border-b border-primary/10 bg-neutral/40 shadow-md">
+      <div className="fixed top-0 left-0 right-0 z-50 w-full backdrop-blur-lg border-b border-primary/10 bg-neutral/40 shadow-md px-0 md:px-3">
         <div className="navbar mx-auto">
           {/* Left */}
           <div className="navbar-start">
@@ -74,6 +74,7 @@ const Navbar = () => {
                 {links}
               </ul>
             </div>
+            <Logo></Logo>
           </div>
 
           {/* Center */}
@@ -84,10 +85,11 @@ const Navbar = () => {
           </div>
 
           {/* Right */}
-          <div className="navbar-end flex items-center gap-3"></div>
+          <div className="navbar-end flex items-center gap-3">
+            <Theme></Theme>
+          </div>
         </div>
       </div>
-      <Theme></Theme>
 
       {/* To offset the fixed navbar height */}
       <div className="pt-20"></div>

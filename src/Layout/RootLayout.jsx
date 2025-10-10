@@ -1,6 +1,7 @@
 import React from 'react'
 import Navbar from '../Components/Navbar/Navbar'
 import { Outlet } from 'react-router'
+import Footer from "../Components/Footer/Footer";
 
 const RootLayout = () => {
   return (
@@ -8,9 +9,12 @@ const RootLayout = () => {
     <header>
       <Navbar/>
     </header>
-    <main>
+    <main className='max-w-screen-xl mx-auto'>
       <Outlet/>
     </main>
+    <footer>
+      <Footer/>
+    </footer>
     </>
   )
 }
