@@ -21,7 +21,7 @@ const Footer = () => {
 
   return (
     <footer className="bg-accent">
-      <div className="max-w-screen-xl mx-auto p-6 md:p-12 rounded mt-16">
+      <div className="max-w-screen-2xl mx-auto p-6 md:p-12 rounded mt-16">
         {/* Upper Section */}
         <div className="w-full flex flex-col md:flex-row md:items-start md:justify-between gap-6 md:gap-10">
           {/* Brand + Social Icons */}

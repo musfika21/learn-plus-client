@@ -9,7 +9,7 @@ const Logo = () => {
       <div className="flex items-end">
         <img className="mb-1 w-6 md:w-8" src={img} alt="" />
         <h2 className="text-xl md:text-2xl font-semibold md:font-bold text-primary -ml-2 md:-ml-3">
-          info<span className="text-secondary">Hunt</span>
+          Learn<span className="text-secondary">Plus</span>
         </h2>
       </div>
     </Link>
