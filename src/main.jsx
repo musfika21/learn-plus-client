@@ -8,9 +8,9 @@ import { Toaster } from 'react-hot-toast';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-   <AuthProvider>
-    <Toaster position="top-right" />
-    <RouterProvider router={router} />
-   </AuthProvider>
+    <AuthProvider>
+      <Toaster position="top-right" />
+      <RouterProvider router={router} />
+    </AuthProvider>
   </StrictMode>
 )
