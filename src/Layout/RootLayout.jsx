@@ -1,11 +1,17 @@
 import React from 'react'
 import Navbar from '../Components/Navbar/Navbar'
+import { Outlet } from 'react-router'
 
 const RootLayout = () => {
   return (
-    <div className='text-2xl'>
-      <Navbar></Navbar>
-    </div>
+    <>
+    <header>
+      <Navbar/>
+    </header>
+    <main>
+      <Outlet/>
+    </main>
+    </>
   )
 }
 
