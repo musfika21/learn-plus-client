@@ -1,9 +1,19 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { NavLink, Outlet } from "react-router";
 import { FiHome, FiPackage, FiCreditCard } from "react-icons/fi";
 import Logo from "../Components/Logo/Logo";
 import DashBoardWrapper from "../Components/DashBoardWrapper/DashBoardWrapper";
+import Loading2 from "../Components/Loading/Loading2"; // import your loading component
+
 const DashLayout = () => {
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    // Simulate loading or replace with real async fetching
+    const timer = setTimeout(() => setLoading(false), 1500); // 1.5 sec
+    return () => clearTimeout(timer);
+  }, []);
+
   const navLinkClasses = ({ isActive }) =>
     `flex items-center gap-2 px-2 py-2 rounded-md transition-all duration-200
      ${
@@ -14,6 +24,8 @@ const DashLayout = () => {
 
   const iconClasses = ({ isActive }) =>
     `${isActive ? "text-neutral" : "text-secondary"}`;
+
+  if (loading) return <Loading2 />; // show loading screen while loading
 
   return (
     <DashBoardWrapper>
