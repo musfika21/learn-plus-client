@@ -87,6 +87,7 @@ const Navbar = () => {
           {/* Right */}
           <div className="navbar-end flex items-center gap-3">
             <Theme></Theme>
+            <button className="btn btn-secondary">Loginn</button>
           </div>
         </div>
       </div>
