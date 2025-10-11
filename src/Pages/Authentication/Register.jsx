@@ -2,6 +2,7 @@ import { useState } from "react";
 import useAuth from "../../CustomHooks/useAuth";
 import useAxios from "../../CustomHooks/useAxios";
 import { toast } from "react-hot-toast";
+import animation from '../../assets/LoginSuccess.json'
 
 const Register = () => {
     const { createUser, updateUserInfo, setUser, GoogleLogin } = useAuth();
@@ -11,7 +12,6 @@ const Register = () => {
     const handleSignUp = async (e) => {
         e.preventDefault();
         setLoading(true);
-
         const form = e.target;
         const formData = new FormData(form);
         const first_name = formData.get("first_name");
@@ -23,82 +23,44 @@ const Register = () => {
         const profession = formData.get("profession");
         const password = formData.get("password");
         const file = formData.get("photo");
-
         const name = `${first_name} ${last_name}`;
 
         try {
-            // 1️⃣ Firebase create user
             const userCredential = await createUser(email, password);
-            console.log("✅ User created in Firebase:", userCredential.user.uid);
-
-            // 2️⃣ Upload photo to imgbb (if exists)
             let photoURL = "https://i.ibb.co/default-avatar.png";
+
             if (file && file.size > 0) {
                 const imgData = new FormData();
                 imgData.append("image", file);
 
                 const res = await fetch(
                     `https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_IMGBB_API_KEY}`,
-                    {
-                        method: "POST",
-                        body: imgData,
-                    }
+                    { method: "POST", body: imgData }
                 );
                 const data = await res.json();
-                console.log("📸 ImgBB response:", data);
-
-                if (data.success) {
-                    photoURL = data.data.display_url;
-                } else {
-                    console.warn("⚠️ ImgBB upload failed, using default avatar");
-                }
+                if (data.success) photoURL = data.data.display_url;
             }
 
-            // 3️⃣ Update Firebase profile
             await updateUserInfo({ displayName: name, photoURL });
-            console.log("✅ Firebase profile updated");
+            setUser({ ...userCredential.user, displayName: name, photoURL });
 
-            // 4️⃣ Update local state
-            setUser({
-                ...userCredential.user,
-                displayName: name,
+            await axios.post("/users", {
+                name,
+                email,
                 photoURL,
+                age,
+                address,
+                phone,
+                profession,
+                role: "student",
             });
 
-            // 5️⃣ Send user data to server via axios
-            const serverResponse = await axios.post("/users", {
-                name: name || "",
-                email: email || "",
-                photoURL: photoURL || "",
-                age: age || "",
-                address: address || "",
-                phone: phone || "",
-                profession: profession || "",
-                role: "student", // Default role
-            });
-
-            console.log("✅ Server response:", serverResponse.data);
-
-            toast.success("Registration successful! Welcome to Learn Plus!");
+            toast.success("Registration successful! Welcome!");
             form.reset();
-
-            // Optional: Redirect to dashboard
-            // navigate('/dashboard');
-
         } catch (error) {
-            console.error("❌ Registration error:", error);
-
-            // Show user-friendly error messages
-            if (error.code === "auth/email-already-in-use") {
-                toast.error("This email is already registered!");
-            } else if (error.code === "auth/weak-password") {
-                toast.error("Password should be at least 6 characters!");
-            } else if (error.response) {
-                // Axios error
-                toast.error(`Server error: ${error.response.data.error || "Unknown error"}`);
-            } else {
-                toast.error(error.message || "Registration failed. Please try again.");
-            }
+            if (error.code === "auth/email-already-in-use") toast.error("Email already registered!");
+            else if (error.code === "auth/weak-password") toast.error("Password must be at least 6 characters!");
+            else toast.error(error.message || "Registration failed!");
         } finally {
             setLoading(false);
         }
@@ -109,13 +71,9 @@ const Register = () => {
         try {
             const result = await GoogleLogin();
             const gUser = result.user;
-            console.log("✅ Google user:", gUser);
-
-            // Update local state
             setUser(gUser);
 
-            // Send to server with default values for Google sign-in
-            const serverResponse = await axios.post("/users", {
+            await axios.post("/users", {
                 name: gUser.displayName || "",
                 email: gUser.email || "",
                 photoURL: gUser.photoURL || "",
@@ -123,62 +81,51 @@ const Register = () => {
                 address: "",
                 phone: "",
                 profession: "",
-                role: "student", // Default role
+                role: "student",
             });
 
-            console.log("✅ Google user saved to server:", serverResponse.data);
             toast.success("Welcome! Signed in with Google successfully!");
-
-            // Optional: Redirect
-            // navigate('/dashboard');
-
         } catch (error) {
-            console.error("❌ Google sign-in error:", error);
-
-            if (error.response) {
-                toast.error(`Server error: ${error.response.data.error || "Unknown error"}`);
-            } else {
-                toast.error(error.message || "Google sign-in failed");
-            }
+            toast.error(error.message || "Google sign-in failed");
         } finally {
             setLoading(false);
         }
     };
 
     return (
-        <div className="flex items-center justify-center min-h-screen p-4 bg-gray-50">
+        <div className="min-h-screen p-4 bg-accent">
             <div className="w-full max-w-2xl">
                 <form
                     onSubmit={handleSignUp}
-                    className="shadow-lg rounded-xl p-8 bg-white"
+                    className="shadow-xl rounded-2xl p-8 bg-neutral"
                 >
-                    <h2 className="text-3xl font-semibold text-center mb-6 text-gray-800">
+                    <h2 className="text-3xl font-bold text-primary text-center mb-6">
                         Create Account
                     </h2>
 
                     {/* Name Fields */}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                         <div>
-                            <label className="block font-medium mb-1 text-gray-700">
-                                First Name <span className="text-red-500">*</span>
+                            <label className="block font-medium mb-1 text-info">
+                                First Name <span className="text-secondary">*</span>
                             </label>
                             <input
                                 type="text"
                                 name="first_name"
-                                className="w-full border border-gray-300 rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                className="w-full border border-primary rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
                                 placeholder="Enter first name"
                                 required
                             />
                         </div>
 
                         <div>
-                            <label className="block font-medium mb-1 text-gray-700">
-                                Last Name <span className="text-red-500">*</span>
+                            <label className="block font-medium mb-1 text-info">
+                                Last Name <span className="text-secondary">*</span>
                             </label>
                             <input
                                 type="text"
                                 name="last_name"
-                                className="w-full border border-gray-300 rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                className="w-full border border-primary rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
                                 placeholder="Enter last name"
                                 required
                             />
@@ -187,13 +134,13 @@ const Register = () => {
 
                     {/* Email */}
                     <div className="mb-4">
-                        <label className="block font-medium mb-1 text-gray-700">
-                            Email <span className="text-red-500">*</span>
+                        <label className="block font-medium mb-1 text-info">
+                            Email <span className="text-secondary">*</span>
                         </label>
                         <input
                             type="email"
                             name="email"
-                            className="w-full border border-gray-300 rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            className="w-full border border-primary rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
                             placeholder="Enter email"
                             required
                         />
@@ -202,13 +149,13 @@ const Register = () => {
                     {/* Age and Phone */}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                         <div>
-                            <label className="block font-medium mb-1 text-gray-700">
-                                Age <span className="text-red-500">*</span>
+                            <label className="block font-medium mb-1 text-info">
+                                Age <span className="text-secondary">*</span>
                             </label>
                             <input
                                 type="number"
                                 name="age"
-                                className="w-full border border-gray-300 rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                className="w-full border border-primary rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
                                 placeholder="Enter age"
                                 min="1"
                                 max="120"
@@ -217,13 +164,13 @@ const Register = () => {
                         </div>
 
                         <div>
-                            <label className="block font-medium mb-1 text-gray-700">
-                                Phone Number <span className="text-red-500">*</span>
+                            <label className="block font-medium mb-1 text-info">
+                                Phone <span className="text-secondary">*</span>
                             </label>
                             <input
                                 type="tel"
                                 name="phone"
-                                className="w-full border border-gray-300 rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                className="w-full border border-primary rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
                                 placeholder="Enter phone number"
                                 required
                             />
@@ -232,65 +179,63 @@ const Register = () => {
 
                     {/* Address */}
                     <div className="mb-4">
-                        <label className="block font-medium mb-1 text-gray-700">
-                            Address <span className="text-red-500">*</span>
+                        <label className="block font-medium mb-1 text-info">
+                            Address <span className="text-secondary">*</span>
                         </label>
                         <input
                             type="text"
                             name="address"
-                            className="w-full border border-gray-300 rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                            placeholder="Enter your address"
+                            className="w-full border border-primary rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                            placeholder="Enter address"
                             required
                         />
                     </div>
 
                     {/* Profession */}
                     <div className="mb-4">
-                        <label className="block font-medium mb-1 text-gray-700">
-                            Profession <span className="text-red-500">*</span>
+                        <label className="block font-medium mb-1 text-info">
+                            Profession <span className="text-secondary">*</span>
                         </label>
                         <input
                             type="text"
                             name="profession"
-                            className="w-full border border-gray-300 rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                            placeholder="e.g., Student, Engineer, Teacher"
+                            className="w-full border border-primary rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                            placeholder="e.g., Student, Engineer"
                             required
                         />
                     </div>
 
                     {/* Photo */}
                     <div className="mb-4">
-                        <label className="block font-medium mb-1 text-gray-700">
-                            Profile Photo
-                        </label>
+                        <label className="block font-medium mb-1 text-info">Profile Photo</label>
                         <input
                             type="file"
                             name="photo"
-                            className="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            className="w-full border border-primary rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
                             accept="image/*"
                         />
-                        <p className="text-sm text-gray-500 mt-1">Optional - Max 5MB</p>
+                        <p className="text-sm text-info mt-1">Optional - Max 5MB</p>
                     </div>
 
                     {/* Password */}
                     <div className="mb-6">
-                        <label className="block font-medium mb-1 text-gray-700">
-                            Password <span className="text-red-500">*</span>
+                        <label className="block font-medium mb-1 text-info">
+                            Password <span className="text-secondary">*</span>
                         </label>
                         <input
                             type="password"
                             name="password"
-                            className="w-full border border-gray-300 rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                            placeholder="Enter password (min 6 characters)"
-                            required
+                            className="w-full border border-primary rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                            placeholder="Enter password"
                             minLength={6}
+                            required
                         />
                     </div>
 
                     <button
                         type="submit"
                         disabled={loading}
-                        className="w-full py-3 rounded-md bg-blue-600 text-white font-semibold hover:bg-blue-700 transition disabled:opacity-60 disabled:cursor-not-allowed"
+                        className="w-full py-3 rounded-lg bg-primary text-neutral font-semibold hover:bg-secondary transition disabled:opacity-60 disabled:cursor-not-allowed"
                     >
                         {loading ? "Registering..." : "Register"}
                     </button>
@@ -299,15 +244,15 @@ const Register = () => {
                 <div className="mt-4">
                     <div className="relative">
                         <div className="absolute inset-0 flex items-center">
-                            <div className="w-full border-t border-gray-300"></div>
+                            <div className="w-full border-t border-primary"></div>
                         </div>
-                        <div className="relative flex justify-center text-sm">
-                            <span className="px-2 bg-gray-50 text-gray-500">Or continue with</span>
+                        <div className="relative flex justify-center text-sm text-info bg-accent px-2">
+                            Or continue with
                         </div>
                     </div>
 
                     <button
-                        className="w-full mt-4 py-3 px-6 border border-gray-300 rounded-md bg-white hover:bg-gray-50 transition disabled:opacity-60 flex items-center justify-center gap-2 font-medium"
+                        className="w-full mt-4 py-3 rounded-lg bg-secondary text-neutral font-semibold hover:bg-primary transition disabled:opacity-60 flex items-center justify-center gap-2"
                         onClick={handleGoogleSignIn}
                         disabled={loading}
                     >
