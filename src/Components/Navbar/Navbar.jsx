@@ -7,11 +7,11 @@ import {
 } from "react-icons/fa";
 import Theme from "../Theme/Theme";
 import Logo from "../Logo/Logo";
+// sign in button ta add koren
 
 const Navbar = () => {
   const linkClass = ({ isActive }) =>
-    `flex items-center gap-2 text-lg font-medium transition-all duration-300 ${
-      isActive ? "underline" : ""
+    `flex items-center gap-2 text-lg font-medium transition-all duration-300 ${isActive ? "underline" : ""
     }`;
 
   const links = (
@@ -87,6 +87,7 @@ const Navbar = () => {
           {/* Right */}
           <div className="navbar-end flex items-center gap-3">
             <Theme></Theme>
+            <button className="btn btn-secondary">Loginn</button>
           </div>
         </div>
       </div>
