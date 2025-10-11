@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Banner from "./Banner/banner";
 import Loading1 from "../../Components/Loading/Loading1";
 import Features from "./Features/Features";
+import Faq from "./Faq/Faq";
 
 const Home = () => {
   const [loading, setLoading] = useState(true);
@@ -16,6 +17,7 @@ const Home = () => {
       {loading && <Loading1 />}
       <Banner />
       <Features></Features>
+      <Faq></Faq>
     </div>
   );
 };

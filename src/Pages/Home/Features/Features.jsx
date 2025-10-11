@@ -11,9 +11,8 @@ import {
 
 const featuresData = [
   {
-    title: "Fast Delivery",
-    description:
-      "Get your parcels delivered swiftly and safely across Bangladesh.",
+    title: "High Resolution",
+    description: "All our class videos are in full HD and above.",
     icon: faRocket,
   },
   {
@@ -40,9 +39,14 @@ const featuresData = [
   },
 ];
 
+const cardVariants = {
+  hidden: { opacity: 0, y: 30 },
+  visible: { opacity: 1, y: 0 },
+};
+
 const Features = () => {
   return (
-    <div className="p-2 min-h-screen">
+    <div className="p-2">
       <h2 className="text-3xl md:text-4xl font-bold text-primary text-center mb-12">
         Our Features
       </h2>
@@ -50,8 +54,13 @@ const Features = () => {
         {featuresData.map((feature, index) => (
           <motion.div
             key={index}
+            variants={cardVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: 0.5, delay: index * 0.1 }}
             whileHover={{ scale: 1.05 }}
-            className="bg-accent p-6 rounded-2xl shadow-lg shadow-primary/50 hover:shadow-secondary/50 hover:shadow-xl flex flex-col items-center text-center"
+            className="bg-accent p-6 rounded-2xl shadow-lg shadow-primary/50 flex flex-col items-center text-center"
           >
             <FontAwesomeIcon
               icon={feature.icon}
@@ -61,9 +70,7 @@ const Features = () => {
             <h3 className="text-xl font-semibold text-primary mb-2">
               {feature.title}
             </h3>
-            <p className="text-sm font-medium text-info">
-              {feature.description}
-            </p>
+            <p className="text-sm font-medium text-info">{feature.description}</p>
           </motion.div>
         ))}
       </div>
