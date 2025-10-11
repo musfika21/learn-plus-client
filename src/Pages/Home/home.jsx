@@ -4,6 +4,7 @@ import Loading1 from "../../Components/Loading/Loading1";
 import Features from "./Features/Features";
 import Faq from "./Faq/Faq";
 import Statistics from "./Statistics/Statistics";
+import Testimonials from "./Testimonials/Testimonials";
 
 const Home = () => {
   const [loading, setLoading] = useState(true);
@@ -19,6 +20,7 @@ const Home = () => {
       <Banner />
       <Features></Features>
       <Statistics></Statistics>
+      <Testimonials></Testimonials>
       <Faq></Faq>
     </div>
   );
