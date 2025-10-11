@@ -4,7 +4,8 @@ import Register from "../Pages/Authentication/Register";
 import Login from "../Pages/Authentication/Login";
 import Home from "../Pages/home/home";
 import DashLayout from "../Layout/DashLayout";
-import Error from '../Components/Error/Error';
+import Error from "../Components/Error/Error";
+import AuthLayout from "../Layout/AuthLayout";
 
 export const router = createBrowserRouter([
   {
@@ -13,24 +14,30 @@ export const router = createBrowserRouter([
     children: [
       {
         index: true,
-        Component: Home
+        Component: Home,
       },
       {
-        path: '*',
-        Component: Error
-      }
-    ]
+        path: "*",
+        Component: Error,
+      },
+    ],
   },
   {
-    path: "/register",
-    Component: Register
+    path: "/",
+    Component: AuthLayout,
+    children: [
+      {
+        path: "login",
+        Component: Login,
+      },
+      {
+        path: "register",
+        Component: Register,
+      },
+    ],
   },
   {
-    path: "/login",
-    Component: Login
+    path: "/dashboard",
+    Component: DashLayout,
   },
-  {
-    path: '/dashboard',
-    Component: DashLayout
-  }
 ]);
