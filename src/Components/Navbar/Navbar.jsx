@@ -65,7 +65,7 @@ const Navbar = () => {
 
   return (
     <>
-      <div className="fixed top-0 left-0 right-0 z-50 w-full backdrop-blur-lg border-b border-primary/10 bg-neutral/40 shadow-md px-3">
+      <div className="fixed top-0 left-0 right-0 z-50 w-full backdrop-blur-lg bg-primary/10 shadow-md px-3">
         <div className="navbar mx-auto">
           {/* Left */}
           <div className="navbar-start">
