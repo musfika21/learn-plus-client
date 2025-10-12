@@ -6,6 +6,8 @@ import Home from "../Pages/home/home";
 import DashLayout from "../Layout/DashLayout";
 import Error from "../Components/Error/Error";
 import AuthLayout from "../Layout/AuthLayout";
+import DashHome from "../pages/DashBoard/DashHome";
+import AddClass from "../pages/DashBoard/AddClass/AddClass";
 
 export const router = createBrowserRouter([
   {
@@ -39,5 +41,15 @@ export const router = createBrowserRouter([
   {
     path: "/dashboard",
     Component: DashLayout,
+    children:[
+      {
+        index:true,
+        Component:DashHome
+      },
+      {
+        path:'addClass',
+        Component:AddClass
+      }
+    ]
   },
 ]);

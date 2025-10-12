@@ -79,7 +79,7 @@ const Login = () => {
             toast.success("Welcome! Signed in with Google successfully!");
             setTimeout(() => {
                 setLoginSuccess(false);
-                navigate("/dashboard");
+                navigate("/");
             }, 2000);
 
         } catch (error) {

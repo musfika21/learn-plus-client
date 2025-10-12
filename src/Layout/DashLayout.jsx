@@ -32,7 +32,7 @@ const DashLayout = () => {
       <div className="max-w-screen-xl mx-auto">
         <div className="drawer lg:drawer-open">
           <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
-          <div className="drawer-content bg-base-100 min-h-screen flex flex-col">
+          <div className="drawer-content min-h-screen flex flex-col ">
             {/* Mobile Navbar */}
             <div className="navbar bg-accent w-full lg:hidden">
               <div className="flex-none">
@@ -104,11 +104,11 @@ const DashLayout = () => {
                 </NavLink>
               </li>
               <li>
-                <NavLink to="/dashboard/myParcel" className={navLinkClasses}>
+                <NavLink to="/dashboard/addClass" className={navLinkClasses}>
                   {({ isActive }) => (
                     <>
                       <FiPackage className={iconClasses({ isActive })} />
-                      My Parcel
+                      Add Class
                     </>
                   )}
                 </NavLink>
