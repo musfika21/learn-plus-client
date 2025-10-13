@@ -3,8 +3,11 @@ import RootLayout from "../Layout/RootLayout";
 import Register from "../Pages/Authentication/Register";
 import Login from "../Pages/Authentication/Login";
 import DashLayout from "../Layout/DashLayout";
-import Error from '../Components/Error/Error';
-import Home from "../pages/home/home";
+import Error from "../Components/Error/Error";
+import AuthLayout from "../Layout/AuthLayout";
+import DashHome from "../pages/DashBoard/DashHome";
+import AddClass from "../pages/DashBoard/AddClass/AddClass";
+import Home from "../pages/Home/Home";
 
 export const router = createBrowserRouter([
   {
@@ -13,24 +16,40 @@ export const router = createBrowserRouter([
     children: [
       {
         index: true,
-        Component: Home
+        Component: Home,
       },
       {
-        path: '*',
-        Component: Error
+        path: "*",
+        Component: Error,
+      },
+    ],
+  },
+  {
+    path: "/",
+    Component: AuthLayout,
+    children: [
+      {
+        path: "login",
+        Component: Login,
+      },
+      {
+        path: "register",
+        Component: Register,
+      },
+    ],
+  },
+  {
+    path: "/dashboard",
+    Component: DashLayout,
+    children:[
+      {
+        index:true,
+        Component:DashHome
+      },
+      {
+        path:'addClass',
+        Component:AddClass
       }
     ]
   },
-  {
-    path: "/register",
-    Component: Register
-  },
-  {
-    path: "/login",
-    Component: Login
-  },
-  {
-    path: '/dashboard',
-    Component: DashLayout
-  }
 ]);
